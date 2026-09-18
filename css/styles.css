@@ -97,6 +97,15 @@ p { margin: 0; }
 }
 .skip-link:focus { left: 0; }
 
+/* Ancla del inicio del documento. Va aquí y no en <header>, porque la
+   cabecera es sticky: al estar siempre fijada arriba, el navegador
+   concluye que no hace falta desplazarse y el enlace "Inicio" no hace nada. */
+.ancla-inicio {
+  display: block;
+  height: 0;
+  scroll-margin-top: 0;
+}
+
 /* ---------- Utilidades ---------- */
 .wrap {
   width: 100%;
