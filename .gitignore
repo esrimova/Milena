@@ -7,3 +7,6 @@ desktop.ini
 .DS_Store
 .vscode/
 .idea/
+
+# Plan de trabajo — local, no se publica
+PLAN.md
