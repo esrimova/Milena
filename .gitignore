@@ -1,0 +1,9 @@
+# Stitch export — reference only, not part of the site
+Google/
+
+# OS / editor noise
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
