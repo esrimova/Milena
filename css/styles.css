@@ -32,6 +32,7 @@
   --space-lg: 1.5rem;
   --space-xl: 2.5rem;
   --space-2xl: 4rem;
+  --section-pad: 4rem;   /* padding vertical de cada sección */
 
   /* Forma */
   --radius: 4px;
@@ -45,7 +46,7 @@
   :root { --gutter: 1.5rem; --margin: 2rem; }
 }
 @media (min-width: 1024px) {
-  :root { --margin: 3rem; --header-h: 80px; }
+  :root { --margin: 3rem; --header-h: 80px; --section-pad: 6rem; }
 }
 
 /* ---------- Reset ---------- */
@@ -118,8 +119,12 @@ p { margin: 0; }
 }
 .eyebrow--onDark { color: var(--brass); }
 
-.section { padding-block: var(--space-2xl); }
-@media (min-width: 1024px) { .section { padding-block: 6rem; } }
+.section { padding-block: var(--section-pad); }
+
+/* Al saltar a un ancla, el relleno de la sección se suma al scroll-padding
+   y se aterriza sobre espacio vacío. Este margen negativo lo compensa
+   para que el título quede justo bajo la cabecera. */
+main > section[id] { scroll-margin-top: calc(1rem - var(--section-pad)); }
 
 .section--alt  { background: var(--mist); }
 .section--dark { background: var(--navy); color: var(--ink-onDark); }
@@ -648,6 +653,7 @@ p { margin: 0; }
 }
 
 /* ---------- FAB WhatsApp ---------- */
+/* Estilo tomado del mockup: pastilla azul noche, disco dorado y halo pulsante. */
 .fab {
   position: fixed;
   right: 1rem;
@@ -655,22 +661,61 @@ p { margin: 0; }
   z-index: 90;
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
-  padding: .75rem 1.125rem;
-  background: var(--wa);
+  gap: .625rem;
+  padding: .5rem 1.125rem .5rem .5rem;
+  background: var(--navy);
   color: var(--white);
+  border: 1px solid rgba(197, 168, 128, .45);
   border-radius: 9999px;
-  font-size: .875rem;
-  font-weight: 600;
-  box-shadow: 0 8px 22px -4px rgba(11, 25, 44, .35);
-  transition: transform .18s ease, background-color .18s ease;
+  box-shadow: 0 8px 24px rgba(8, 16, 28, .28);
+  transition: background-color .2s ease, transform .2s ease, border-color .2s ease;
 }
-.fab:hover { background: #19a350; transform: translateY(-2px); }
-.fab .ico { width: 22px; height: 22px; }
+.fab:hover {
+  background: var(--navy-soft);
+  border-color: var(--brass);
+  transform: translateY(-2px) scale(1.03);
+}
 
-/* En pantallas pequeñas se reduce a un círculo para no tapar contenido */
+.fab__icon {
+  position: relative;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: var(--brass);
+  color: var(--navy);
+  border-radius: 50%;
+}
+.fab__icon .ico { width: 21px; height: 21px; }
+
+/* Halo que late — el "temblor" del mockup */
+.fab__halo {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: var(--brass);
+  opacity: .45;
+  animation: fab-halo 2s cubic-bezier(0, 0, .2, 1) infinite;
+}
+@keyframes fab-halo {
+  0%        { transform: scale(1);    opacity: .45; }
+  70%, 100% { transform: scale(1.75); opacity: 0; }
+}
+
+.fab__text { display: flex; flex-direction: column; line-height: 1.2; text-align: left; }
+.fab__label {
+  font-size: .625rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.fab__action { font-size: .875rem; font-weight: 600; }
+
+/* En pantallas pequeñas queda solo el disco, para no tapar contenido */
 @media (max-width: 480px) {
-  .fab { padding: .875rem; }
+  .fab { padding: .375rem; gap: 0; }
   .fab__text {
     position: absolute;
     width: 1px; height: 1px;
